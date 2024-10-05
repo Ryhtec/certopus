@@ -1,0 +1,69 @@
+<!-- HTML -->
+<div class="certificate-container">
+    <img id="certificate-image" src="http://providers.acri.com.au/wp-content/uploads/2024/10/a7b7d44582cc4cbca4e57bb7f96c30f1.jpeg" alt="Accreditation Certificate" class="certificate-image" >
+    <button id="view-button" class="view-button">View More</button>
+  </div>
+  
+  <!-- CSS -->
+  <style>
+  .certificate-container {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .certificate-image {
+    width: 250px;
+    height: 250px;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .view-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .view-button:hover {
+    background-color: #218838;
+  }
+  </style>
+  
+  <!-- JavaScript -->
+  <script>
+  document.getElementById("view-button").addEventListener("click", function() {
+    // Fetch certificate from Certopus API
+    fetch("https://api.certopus.com/certificates/{certificate_id}", {
+      method: "GET",
+      headers: {
+        "Authorization": "API KEY",  // Add your API token if needed
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.certificate_url) {
+        // Replace the placeholder image with the actual certificate from the URL
+        document.getElementById("certificate-image").src = data.certificate_url;
+        document.getElementById("view-button").textContent = "Certificate Loaded";
+      } else {
+        alert("Certificate not found.");
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching certificate:", error);
+      alert("Error fetching certificate.");
+    });
+  });
+  </script>
+  
